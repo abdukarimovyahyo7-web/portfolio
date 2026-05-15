@@ -1,100 +1,521 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yahyo Abdukarimov | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yahyo Abdukarimov — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Cabinet+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital@1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#fafaf8;
+  --white:#ffffff;
+  --ink:#0f0e0b;
+  --muted:#7a7870;
+  --line:#e8e5df;
+  --card:#ffffff;
+
+  --c1:#4f46e5; /* indigo */
+  --c2:#059669; /* emerald */
+  --c3:#db2777; /* pink */
+  --c4:#d97706; /* amber */
+  --c5:#7c3aed; /* violet */
+
+  --serif:'Clash Display',sans-serif;
+  --sans:'Cabinet Grotesk',sans-serif;
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:400;line-height:1.7;overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+.cursor{width:8px;height:8px;background:var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .2s}
+.cursor-ring{width:32px;height:32px;border:1.5px solid var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.35;transition:width .3s,height .3s,opacity .3s}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3rem;background:rgba(250,250,248,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.logo{font-family: "Playwrite GB S", cursive;font-size:1.05rem;font-weight:600;color:var(--ink);text-decoration:none;letter-spacing:-.3px}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-size:.8rem;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1.5px;background:var(--c1);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{transform:scaleX(1)}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:9rem 3rem 5rem;gap:3rem;position:relative;overflow:hidden}
+.hero-blob{position:absolute;top:-120px;right:-80px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.1) 0%,rgba(124,58,237,.06) 50%,transparent 75%);pointer-events:none;animation:blobPulse 6s ease-in-out infinite}
+@keyframes blobPulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(8deg)}}
+
+.hero-tag{display:inline-flex;align-items:center;gap:.6rem;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--c1);font-weight:600;margin-bottom:1.6rem;opacity:0;animation:fadeUp .6s .1s ease both}
+.hero-tag-dot{width:6px;height:6px;background:var(--c1);border-radius:50%;animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+.hero h1{font-family:var(--serif);font-size:clamp(2.8rem,4.5vw,4.8rem);line-height:1.06;letter-spacing:-2px;margin-bottom:1.4rem;opacity:0;animation:fadeUp .6s .2s ease both}
+.hero h1 .line2{color:var(--c1)}
+.hero-desc{font-size:1rem;color:var(--muted);max-width:400px;line-height:1.85;margin-bottom:2.4rem;opacity:0;animation:fadeUp .6s .3s ease both}
+.hero-actions{display:flex;gap:1rem;align-items:center;opacity:0;animation:fadeUp .6s .4s ease both}
+
+.btn-solid{background:var(--ink);color:#fff;padding:.78rem 1.9rem;border-radius:100px;font-family:var(--sans);font-size:.85rem;font-weight:600;text-decoration:none;letter-spacing:.3px;transition:background .2s,transform .2s,box-shadow .2s;display:inline-block}
+.btn-solid:hover{background:var(--c1);transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,70,229,.3)}
+.btn-ghost{color:var(--muted);font-size:.85rem;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:color .2s;letter-spacing:.3px}
+.btn-ghost:hover{color:var(--ink)}
+
+/* HERO RIGHT — floating cards */
+.hero-right{display:flex;justify-content:flex-end;align-items:center;position:relative;opacity:0;animation:fadeUp .7s .3s ease both}
+.hero-visual{position:relative;width:360px;height:440px}
+.avatar-circle{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:240px;height:240px;border-radius:50%;
+  background:linear-gradient(135deg,#e0e7ff 0%,#ede9fe 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:4.5rem;font-weight:700;
+  color:var(--c1);letter-spacing:-3px;
+  border:3px solid rgba(79,70,229,.15);
+}
+.float-card{
+  position:absolute;background:var(--white);border:1px solid var(--line);
+  border-radius:16px;padding:.9rem 1.1rem;
+  box-shadow:0 4px 20px rgba(0,0,0,.07);
+  animation:floatY 4s ease-in-out infinite;
+}
+.float-card.c1{top:12px;right:0;animation-delay:0s}
+.float-card.c2{bottom:60px;left:0;animation-delay:1.5s}
+.float-card.c3{bottom:10px;right:20px;animation-delay:0.8s}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.fc-label{font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.fc-val{font-family:var(--serif);font-size:1.2rem;font-weight:600}
+.fc-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;font-weight:600;padding:.3rem .75rem;border-radius:100px}
+.fc-badge.green{background:#d1fae5;color:#065f46}
+.fc-badge.blue{background:#e0e7ff;color:#3730a3}
+
+/* DIVIDER */
+.divider-strip{background:var(--ink);color:#fff;padding:1.1rem 3rem;display:flex;gap:4rem;align-items:center;overflow:hidden}
+.ds-item{display:flex;align-items:center;gap:.8rem;white-space:nowrap}
+.ds-num{font-family:var(--serif);font-size:1.6rem;font-weight:700}
+.ds-label{font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;opacity:.5}
+
+/* SECTIONS */
+.section{padding:6rem 3rem;max-width:1120px;margin:0 auto}
+.sec-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:3.5rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
+.sec-num{font-family:var(--serif);font-size:.85rem;color:var(--muted);font-style:italic}
+.sec-title{font-family:var(--serif);font-size:2.3rem;font-weight:600;letter-spacing:-1px}
+
+/* ===== ABOUT ===== */
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about-card{
+  background:var(--white);border:1px solid var(--line);border-radius:24px;
+  padding:2.5rem;
+  box-shadow:0 2px 12px rgba(0,0,0,.04);
+  position:relative;overflow:hidden;
+}
+.about-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--c1),var(--c5));
+}
+.about-text{font-size:.98rem;color:#555;line-height:1.9}
+.about-text p+p{margin-top:1rem}
+
+.about-facts-card{
+  background:var(--white);border:1px solid var(--line);border-radius:24px;
+  padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.04);
+}
+.fact-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1rem 0;border-bottom:1px solid var(--line);
+  transition:padding-left .2s;
+}
+.fact-row:last-child{border-bottom:none}
+.fact-row:hover{padding-left:.4rem}
+.fl{font-size:.75rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:.5rem}
+.fr{font-weight:600;font-size:.9rem}
+
+/* ===== SKILLS ===== */
+.skills-bg{background:#f3f0ff;padding:6rem 3rem}
+.skills-inner{max-width:1120px;margin:0 auto}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.skill-card{
+  background:var(--white);border:1px solid var(--line);border-radius:20px;
+  padding:1.8rem 1.6rem;position:relative;overflow:hidden;
+  transition:transform .25s,box-shadow .25s;
+  cursor:default;
+}
+.skill-card:hover{transform:translateY(-6px);box-shadow:0 12px 36px rgba(0,0,0,.1)}
+.skill-top{display:flex;align-items:center;gap:.9rem;margin-bottom:.9rem}
+.skill-icon-wrap{
+  width:46px;height:46px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+  flex-shrink:0;
+}
+.skill-card.s1 .skill-icon-wrap{background:#fff7ed;color:#c2410c}
+.skill-card.s2 .skill-icon-wrap{background:#eff6ff;color:#1d4ed8}
+.skill-card.s3 .skill-icon-wrap{background:#fdf2f8;color:#9d174d}
+.skill-card.s4 .skill-icon-wrap{background:#f0fdf4;color:#166534}
+.skill-card.s5 .skill-icon-wrap{background:#fff1f2;color:#be123c}
+.skill-card.s6 .skill-icon-wrap{background:#faf5ff;color:#6b21a8}
+.skill-name{font-family:var(--serif);font-size:1.1rem;font-weight:600}
+.skill-desc{font-size:.82rem;color:var(--muted);line-height:1.65}
+.skill-bar-wrap{margin-top:1rem;background:#f1eded;border-radius:100px;height:4px;overflow:hidden}
+.skill-bar{height:4px;border-radius:100px;transition:width 1.2s ease}
+.skill-card.s1 .skill-bar{background:linear-gradient(90deg,#f97316,#ea580c);width:85%}
+.skill-card.s2 .skill-bar{background:linear-gradient(90deg,#3b82f6,#1d4ed8);width:80%}
+.skill-card.s3 .skill-bar{background:linear-gradient(90deg,#ec4899,#9d174d);width:75%}
+.skill-card.s4 .skill-bar{background:linear-gradient(90deg,#22c55e,#166534);width:70%}
+.skill-card.s5 .skill-bar{background:linear-gradient(90deg,#f43f5e,#be123c);width:72%}
+.skill-card.s6 .skill-bar{background:linear-gradient(90deg,#a855f7,#6b21a8);width:78%}
+
+/* ===== PROJECTS ===== */
+.projects-list{display:flex;flex-direction:column;gap:0}
+.project-item{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:2rem;
+  padding:1.5rem 1.2rem;border-bottom:1px solid var(--line);border-radius:12px;
+  text-decoration:none;color:var(--ink);
+  transition:background .2s,padding-left .2s;
+}
+.project-item:hover{background:#f5f3ff;padding-left:1.8rem}
+.pnum{font-family:var(--serif);font-size:.8rem;color:var(--muted);font-style:italic;min-width:24px}
+.pname{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin-bottom:.35rem}
+.ptags{display:flex;gap:.45rem;flex-wrap:wrap}
+.ptag{font-size:.68rem;letter-spacing:.8px;text-transform:uppercase;background:#e0e7ff;color:#3730a3;padding:.22rem .65rem;border-radius:100px;font-weight:600}
+.ptag.green{background:#d1fae5;color:#065f46}
+.ptag.pink{background:#fce7f3;color:#9d174d}
+.ptag.amber{background:#fef3c7;color:#92400e}
+.parrow{font-size:1.1rem;color:var(--muted);transition:color .2s,transform .2s}
+.project-item:hover .parrow{color:var(--c1);transform:translate(3px,-3px)}
+
+/* ===== CONTACT ===== */
+.contact-bg{background:var(--ink);color:#fff;padding:6rem 3rem}
+.contact-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.contact-heading{font-family:var(--serif);font-size:3rem;line-height:1.08;letter-spacing:-2px;margin-bottom:1rem}
+.contact-heading span{color:#818cf8}
+.contact-sub{font-size:.95rem;opacity:.55;line-height:1.8;max-width:340px;margin-bottom:2rem}
+.contact-tel{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--serif);font-size:1.3rem;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:.4rem;transition:border-color .2s}
+.contact-tel:hover{border-color:#818cf8}
+
+.social-list{display:flex;flex-direction:column;gap:.4rem}
+.social-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.1rem 1.2rem;border-radius:14px;border:1px solid rgba(255,255,255,.08);
+  text-decoration:none;color:#fff;
+  transition:background .2s,border-color .2s,transform .2s;
+}
+.social-item:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);transform:translateX(4px)}
+.s-left{display:flex;align-items:center;gap:.9rem}
+.s-icon-wrap{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.si-tg{background:#229ED9}
+.si-tw{background:#000}
+.si-fb{background:#1877F2}
+.si-gh{background:#24292e}
+.si-dc{background:#5865F2}
+.s-name{font-weight:600;font-size:.9rem}
+.s-arrow{opacity:.4;font-size:.9rem;transition:opacity .2s,transform .2s}
+.social-item:hover .s-arrow{opacity:1;transform:translate(3px,-3px)}
+
+/* FOOTER */
+footer{padding:1.6rem 3rem;background:var(--ink);border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;align-items:center}
+.fc{font-size:.75rem;color:rgba(255,255,255,.3);letter-spacing:.5px}
+.fm{font-family:var(--serif);font-size:.82rem;font-style:italic;color:rgba(255,255,255,.3)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.2rem}
+  .nav-links{gap:1rem}
+  .hero{grid-template-columns:1fr;padding:7rem 1.5rem 3rem;gap:2rem}
+  .hero-right{display:none}
+  .divider-strip{gap:2rem;padding:1rem 1.5rem}
+  .section{padding:4rem 1.5rem}
+  .about-layout{grid-template-columns:1fr}
+  .skills-bg{padding:4rem 1.5rem}
+  .skills-grid{grid-template-columns:1fr 1fr}
+  .contact-bg{padding:4rem 1.5rem}
+  .contact-inner{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:.5rem;padding:1.2rem}
+}
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <aside class="sidebar">
-            <div class="profile">
-                <h1>Yahyo Abdukarimov</h1>
-                <p class="title">Junior Frontend Developer</p>
-                <div class="status">
-                    <span class="dot"></span> O'RGANISHDA / OPEN TO WORK
-                </div>
-                <p class="location"><i class="fas fa-map-marker-alt"></i> O'zbekiston</p>
-            </div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="ring"></div>
 
-            <nav class="menu">
-                <ul>
-                    <li><a href="#about">MEN HAQIMDA</a></li>
-                    <li><a href="#experience">TAJRIBA</a></li>
-                    <li><a href="#projects">LOYIHALAR</a></li>
-                    <li><a href="#skills">KO'NIKMALAR</a></li>
-                </ul>
-            </nav>
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">YAHYO ABDUKARIMOV</a>
+  <ul class="nav-links">
+    <li><a href="#about">Haqida</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Loyihalar</a></li>
+    <li><a href="#contact">Aloqa</a></li>
+  </ul>
+</nav>
 
-            <div class="social-links">
-                <a href="https://github.com/abdukarimovyahyo7-web" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://t.me/@yahyo_abdukarimov" target="_blank"><i class="fab fa-telegram"></i></a>
-                <a href="https://abdukarimovyahyo7@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
-            </div>
-        </aside>
-
-        <main class="content">
-            <section id="about">
-                <h2>Men haqimda</h2>
-                <p>Assalomu alaykum! Men Yahyo Abdukarimov, 3 oylik tajribaga ega bo'lgan Junior Frontend dasturchiman. Hozirda <b>Junior IT</b> akademiyasida o'z bilimlarimni oshirib kelmoqdaman. Zamonaviy va qulay veb-saytlar yaratishga qiziqaman.</p>
-            </section>
-
-            <section id="experience">
-                <h2>O'qish va Tajriba</h2>
-                <div class="item">
-                    <h3>Junior IT Akademiyasi</h3>
-                    <p class="sub-text">Frontend Dasturlash Kursi</p>
-                    <p class="date">2024 — Hozirgacha</p>
-                    <p class="description">Veb-texnologiyalar asoslarini o'rganish, real loyihalar ustida ishlash va jamoaviy muhitda tajriba orttirish.</p>
-                </div>
-            </section>
-
-            <section id="projects">
-                <h2>Loyihalar</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <h3>NIKE</h3>
-                        <p>Nike mahsulotlari uchun tayyorlangan landing page.</p>
-                    </div>
-                    <div class="project-card">
-                        <h3>VOXEFOOD</h3>
-                        <p>chegirma narxdagi combolar</p>
-                    </div>
-                    <div class="project-card">
-                        <h3>VOXETV</h3>
-                        <p>Veb-platforma interfeysi loyihasi.</p>
-                    </div>
-                    <div class="project-card">
-                        <h3>VOXEMUSIC</h3>
-                        <p>O'zbekistondagi mashxur qo'shiqchilarning musiqa jamlangan platformasi.</p>
-                    </div>
-                </div>
-            </section>
-              <section id="github">
-    <h2>GitHub Activity</h2>
-    <div class="github-stats">
-        <img src="https://github-readme-stats.vercel.app/api?username=abdukarimovyahyo7-web&show_icons=true&theme=tokyonight&hide_border=true" alt="Yahyo's GitHub Stats" />
-        
-        <br><br>
-        
-        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=abdukarimovyahyo7-web&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages" />
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-blob"></div>
+  <div class="hero-left">
+    <div class="hero-tag"><span class="hero-tag-dot"></span> Frontend Developer</div>
+    <h1>Salom, men<br><span class="line2">Yahyo Abdukarimov</span></h1>
+    <p class="hero-desc">O'zbekistondan 14 yoshli junior frontend dasturchi. HTML, CSS, Bootstrap va Tilda bilan chiroyli veb interfeyslar yarataman.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-solid">Bog'lanish</a>
+      <a href="#projects" class="btn-ghost">Loyihalar →</a>
     </div>
-</section>
-            <section id="skills">
-                <h2>Ko'nikmalar</h2>
-                <div class="skills-list">
-                    <span>HTML</span>
-                    <span>CSS</span>
-                    <span>Bootstrap</span>
-                    <span>Tilda</span>
-                    <span>Git / GitHub</span>
-                </div>
-            </section>
-        </main>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="avatar-circle">YA</div>
+      <div class="float-card c1">
+        <div class="fc-label">GitHub</div>
+        <div class="fc-val">28 repo 🐙</div>
+      </div>
+      <div class="float-card c2">
+        <div style="margin-bottom:4px"><span class="fc-badge green">✓ Junior Dev</span></div>
+        <div class="fc-label" style="margin-top:4px">Junior IT Academy</div>
+      </div>
+      <div class="float-card c3">
+        <span class="fc-badge blue">🇺🇿 O'zbekiston</span>
+      </div>
     </div>
+  </div>
+</div>
 
+<!-- DIVIDER -->
+<div class="divider-strip">
+  <div class="ds-item"><span class="ds-num">14</span><span class="ds-label">Yosh</span></div>
+  <div class="ds-item"><span class="ds-num">6</span><span class="ds-label">Texnologiya</span></div>
+  <div class="ds-item"><span class="ds-num">28</span><span class="ds-label">GitHub repo</span></div>
+  <div class="ds-item"><span class="ds-num">∞</span><span class="ds-label">Qiziqish</span></div>
+</div>
+
+<!-- ABOUT -->
+<div class="section reveal" id="about">
+  <div class="sec-header">
+    <span class="sec-num">01</span>
+    <h2 class="sec-title">Men haqimda</h2>
+  </div>
+  <div class="about-layout">
+    <div class="about-card">
+      <div class="about-text">
+        <p>Salom! Men Yahyo Abdukarimov — O'zbekistondan kelgan 14 yoshli frontend veb dasturchi. Junior IT Academy da o'qib, har kuni yangi texnologiyalarni o'rganib boraman.</p>
+        <p>HTML, CSS va Bootstrap bilan toza va qulay interfeys yarataman. Git orqali loyihalarni boshqaraman, GitHub da 28 ta repositoriyim bor.</p>
+        <p>Maqsadim — professional darajaga yetib, katta loyihalarda ishtirok etish va zamonaviy veb mahsulotlar yaratish.</p>
+      </div>
+    </div>
+    <div class="about-facts-card">
+      <div class="fact-row">
+        <span class="fl"><i class="ti ti-user"></i> Ism</span>
+        <span class="fr">Yahyo Abdukarimov</span>
+      </div>
+      <div class="fact-row">
+        <span class="fl"><i class="ti ti-cake"></i> Yosh</span>
+        <span class="fr">14 yosh</span>
+      </div>
+      <div class="fact-row">
+        <span class="fl"><i class="ti ti-map-pin"></i> Joylashuv</span>
+        <span class="fr">O'zbekiston 🇺🇿</span>
+      </div>
+      <div class="fact-row">
+        <span class="fl"><i class="ti ti-school"></i> Ta'lim</span>
+        <span class="fr">Junior IT Academy</span>
+      </div>
+      <div class="fact-row">
+        <span class="fl"><i class="ti ti-code"></i> Daraja</span>
+        <span class="fr">Junior Developer</span>
+      </div>
+      <div class="fact-row">
+        <span class="fl"><i class="ti ti-phone"></i> Telefon</span>
+        <span class="fr">+998 90 734 11 52</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="skills-bg reveal" id="skills">
+  <div class="skills-inner">
+    <div class="sec-header">
+      <span class="sec-num">02</span>
+      <h2 class="sec-title">Ko'nikmalar</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card s1">
+        <div class="skill-top">
+          <div class="skill-icon-wrap"><i class="ti ti-brand-html5"></i></div>
+          <span class="skill-name">HTML5</span>
+        </div>
+        <div class="skill-desc">Semantik belgilash, sahifa tuzilmasi va zamonaviy HTML standartlari bilan ishlash</div>
+        <div class="skill-bar-wrap"><div class="skill-bar"></div></div>
+      </div>
+      <div class="skill-card s2">
+        <div class="skill-top">
+          <div class="skill-icon-wrap"><i class="ti ti-brand-css3"></i></div>
+          <span class="skill-name">CSS3</span>
+        </div>
+        <div class="skill-desc">Flexbox, Grid, animatsiyalar va responsive dizayn usullari</div>
+        <div class="skill-bar-wrap"><div class="skill-bar"></div></div>
+      </div>
+      <div class="skill-card s3">
+        <div class="skill-top">
+          <div class="skill-icon-wrap"><i class="ti ti-brand-bootstrap"></i></div>
+          <span class="skill-name">Bootstrap</span>
+        </div>
+        <div class="skill-desc">Tezkor va mobil-first responsive interfeys yaratish uchun framework</div>
+        <div class="skill-bar-wrap"><div class="skill-bar"></div></div>
+      </div>
+      <div class="skill-card s4">
+        <div class="skill-top">
+          <div class="skill-icon-wrap"><i class="ti ti-layout"></i></div>
+          <span class="skill-name">Tilda</span>
+        </div>
+        <div class="skill-desc">No-code platformada professional landing page va veb-saytlar yaratish</div>
+        <div class="skill-bar-wrap"><div class="skill-bar"></div></div>
+      </div>
+      <div class="skill-card s5">
+        <div class="skill-top">
+          <div class="skill-icon-wrap"><i class="ti ti-brand-git"></i></div>
+          <span class="skill-name">Git</span>
+        </div>
+        <div class="skill-desc">Versiyalarni boshqarish, branch va merge ishlari bilan tajriba</div>
+        <div class="skill-bar-wrap"><div class="skill-bar"></div></div>
+      </div>
+      <div class="skill-card s6">
+        <div class="skill-top">
+          <div class="skill-icon-wrap"><i class="ti ti-brand-github"></i></div>
+          <span class="skill-name">GitHub</span>
+        </div>
+        <div class="skill-desc">28 ta repositoriy, loyihalarni saqlash va hamkorlik platformasi</div>
+        <div class="skill-bar-wrap"><div class="skill-bar"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="section reveal" id="projects">
+  <div class="sec-header">
+    <span class="sec-num">03</span>
+    <h2 class="sec-title">Loyihalar</h2>
+  </div>
+  <div class="projects-list">
+    <a href="https://github.com/" class="project-item">
+      <span class="pnum">01</span>
+      <div>
+        <div class="pname">Portfolio Website</div>
+        <div class="ptags"><span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">Bootstrap</span></div>
+      </div>
+      <span class="parrow">↗</span>
+    </a>
+    <a href="https://github.com/" class="project-item">
+      <span class="pnum">02</span>
+      <div>
+        <div class="pname">Landing Page</div>
+        <div class="ptags"><span class="ptag green">Tilda</span><span class="ptag">CSS</span></div>
+      </div>
+      <span class="parrow">↗</span>
+    </a>
+    <a href="https://github.com/" class="project-item">
+      <span class="pnum">03</span>
+      <div>
+        <div class="pname">Responsive UI Kit</div>
+        <div class="ptags"><span class="ptag">Bootstrap</span><span class="ptag pink">CSS Grid</span></div>
+      </div>
+      <span class="parrow">↗</span>
+    </a>
+    <a href="https://github.com/" class="project-item">
+      <span class="pnum">04</span>
+      <div>
+        <div class="pname">GitHub — 28 ta loyiha</div>
+        <div class="ptags"><span class="ptag amber">HTML</span><span class="ptag">CSS</span><span class="ptag green">Git</span></div>
+      </div>
+      <span class="parrow">↗</span>
+    </a>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-bg reveal" id="contact">
+  <div class="contact-inner">
+    <div>
+      <h2 class="contact-heading">Gaplashaylik<br><span>bog'laning.</span></h2>
+      <p class="contact-sub">Loyiha yoki hamkorlik bo'yicha savol bo'lsa, men doim tayyor. Quyidagi ijtimoiy tarmoqlar orqali yoki telefon raqamim bilan murojaat qiling.</p>
+      <a href="tel:+998907341152" class="contact-tel"><i class="ti ti-phone"></i> +998 90 734 11 52</a>
+    </div>
+    <div class="social-list">
+      <a href="https://web.telegram.org/a/#8350367299" class="social-item">
+        <div class="s-left">
+          <div class="s-icon-wrap si-tg"><i class="ti ti-brand-telegram" style="color:#fff;font-size:1.1rem"></i></div>
+          <span class="s-name">Telegram</span>
+        </div>
+        <span class="s-arrow">↗</span>
+      </a>
+      <a href="https://x.com/abdukarimov012" class="social-item">
+        <div class="s-left">
+          <div class="s-icon-wrap si-tw"><i class="ti ti-brand-x" style="color:#fff;font-size:1.1rem"></i></div>
+          <span class="s-name">Twitter / X</span>
+        </div>
+        <span class="s-arrow">↗</span>
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61589711094269" class="social-item">
+        <div class="s-left">
+          <div class="s-icon-wrap si-fb"><i class="ti ti-brand-facebook" style="color:#fff;font-size:1.1rem"></i></div>
+          <span class="s-name">Facebook</span>
+        </div>
+        <span class="s-arrow">↗</span>
+      </a>
+      <a href="https://github.com/abdukarimovyahyo7-web" class="social-item">
+        <div class="s-left">
+          <div class="s-icon-wrap si-gh"><i class="ti ti-brand-github" style="color:#fff;font-size:1.1rem"></i></div>
+          <span class="s-name">GitHub</span>
+        </div>
+        <span class="s-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="fc">© 2025 Yahyo Abdukarimov</span>
+  <span class="fm">Made with passion in Uzbekistan 🇺🇿</span>
+</footer>
+
+<script>
+// Cursor
+const cur=document.getElementById('cursor'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function anim(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim)})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';ring.style.opacity='.12'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.opacity='.35'});
+});
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Skill bars animate on scroll
+const barObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.skill-bar').forEach(b=>{
+        const w=b.style.width;b.style.width='0';
+        setTimeout(()=>{b.style.width=w},100);
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.skills-grid').forEach(el=>barObs.observe(el));
+</script>
 </body>
 </html>
